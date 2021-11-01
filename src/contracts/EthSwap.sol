@@ -21,11 +21,27 @@ contract EthSwap{
 
     // buy token
     function buyTokens() public payable{
-      uint tokenAmount = msg.value * rate;
+        // calcaultion
+        uint tokenAmount = msg.value * rate;
 
-      token.transfer(msg.sender, tokenAmount);
+        // type of validation
+        require(token.balanceOf(address(this)) >= tokenAmount);
+        
+        // transfer
+        token.transfer(msg.sender, tokenAmount);
 
-      // event emit
-      emit TokenPurchased(msg.sender, address(token), tokenAmount, rate);
+        // event emit
+        emit TokenPurchased(msg.sender, address(token), tokenAmount, rate);
+    }
+
+    function sellTokens(uint _amount) public{
+
+       uint ethereAmount = _amount / rate;
+
+       //perform sale
+       token.transferFrom(msg.sender, address(this), ethereAmount);
+
+       msg.sender.transfer(ethereAmount);
+
     }
 }

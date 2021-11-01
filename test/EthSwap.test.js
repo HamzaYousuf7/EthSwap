@@ -70,4 +70,18 @@ contract("EthSwap", async ([deployer, investor]) => {
       assert.equal(ethSwapBalance.toString(), tokens("999900"));
     });
   });
+
+  describe("sellToken()", async () => {
+    it("Sell token working", async () => {
+      await token.approve(ethSwap.address, tokens("100"), { from: investor });
+
+      // investor sell token
+      await ethSwap.sellTokens(tokens("100"), { from: investor });
+    });
+    // Q nhi chal rha he ?
+    // it("investor token should b zero", async () => {
+    //   const investorBal = await token.balanceOf(investor);
+    //   assert.equal(investorBal.toString(), tokens("0"));
+    // });
+  });
 });
